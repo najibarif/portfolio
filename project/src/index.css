@@ -1,3 +1,69 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-obsidian text-gray-100 overflow-x-hidden;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv02";
+  }
+
+  ::selection {
+    @apply bg-accent-cyan/30 text-white;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-obsidian;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-800 rounded-full hover:bg-gray-700 transition-colors;
+  }
+}
+
+@layer utilities {
+  .text-glow {
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+  }
+
+  .glass-panel {
+    @apply bg-glass-medium backdrop-blur-md border border-white/10;
+  }
+
+  .neon-border {
+    @apply border border-accent-cyan/50 shadow-[0_0_15px_rgba(0, 240, 255, 0.3)];
+  }
+}
+
+/* Custom Swiper navigation buttons - Modernized */
+.swiper-button-next,
+.swiper-button-prev {
+  @apply w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 !important;
+  background: rgba(0, 240, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  color: #00F0FF !important;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background: rgba(0, 240, 255, 0.2);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+  transform: scale(1.1);
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 1.5rem !important;
+  font-weight: bold;
+}
+
+.swiper-pagination-bullet-active {
+  background: #00F0FF !important;
+  box-shadow: 0 0 10px #00F0FF;
+}
