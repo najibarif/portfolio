@@ -46,6 +46,30 @@ export default function Portfolio() {
             liveUrl: "https://linear-search-visual.vercel.app/",
             caseStudyUrl: "https://github.com/najibarif/linear-search-visualization.git",
             featured: true
+        },
+        {
+            id: 4,
+            title: "LearnJS",
+            category: "Interactive Web",
+            type: "web",
+            description: "An interactive web platform designed for learning JavaScript, featuring code execution and quizzes.",
+            image: "ngodingjs.webp",
+            technologies: ["React", "Next.js", "Tailwind CSS", "TypeScript"],
+            liveUrl: "https://ngoding-js.vercel.app/",
+            caseStudyUrl: "https://github.com/najibarif/ngoding-js",
+            featured: true
+        },
+        {
+            id: 5,
+            title: "English Final Test Prep",
+            category: "Education Portal",
+            type: "web",
+            description: "An English exam preparation platform featuring interactive quizzes, reading, and listening practice.",
+            image: "finaltestprep.webp",
+            technologies: ["React", "Vite", "Tailwind CSS", "Web Audio API"],
+            liveUrl: "https://final-test-prep.vercel.app/",
+            caseStudyUrl: "https://github.com/najibarif/final-test-prep",
+            featured: true
         }
     ];
 
