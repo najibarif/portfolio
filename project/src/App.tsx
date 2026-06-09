@@ -1,5 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from 'react';
-import { animate } from 'framer-motion';
+
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Footer from './components/Footer';
@@ -44,12 +44,9 @@ function App() {
       const elementPosition = elementRect - bodyRect;
       const targetPosition = elementPosition - offset;
 
-      animate(window.scrollY, targetPosition, {
-        type: "spring",
-        stiffness: 40,
-        damping: 15,
-        mass: 1,
-        onUpdate: (latest) => window.scrollTo(0, latest),
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
       });
     }
   };

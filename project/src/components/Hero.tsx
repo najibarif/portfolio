@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+
 import { ArrowRight, Code, Database, Server } from 'lucide-react';
 
 export default function Hero({ scrollToSection }: { scrollToSection: (id: string) => void }) {
@@ -15,12 +15,7 @@ export default function Hero({ scrollToSection }: { scrollToSection: (id: string
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
 
                     {/* Text Content */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.8 }}
-                        className="space-y-8"
-                    >
+                    <div className="space-y-8 animate-slide-in-left">
                         <div className="inline-flex items-center px-4 py-2 bg-white/5 border border-accent-cyan/30 rounded-full backdrop-blur-sm">
                             <span className="w-2 h-2 bg-accent-cyan rounded-full mr-3 animate-pulse"></span>
                             <span className="text-accent-cyan text-xs font-display tracking-widest uppercase">
@@ -74,15 +69,10 @@ export default function Hero({ scrollToSection }: { scrollToSection: (id: string
                                 <span className="text-sm">Scalable</span>
                             </div>
                         </div>
-                    </motion.div>
+                    </div>
 
                     {/* Visual Element */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                        className="relative hidden lg:block"
-                    >
+                    <div className="relative hidden lg:block animate-scale-in">
                         <div className="relative w-full aspect-square max-w-[500px] mx-auto">
                             {/* Rotating Rings */}
                             <div className="absolute inset-0 border border-accent-cyan/20 rounded-full animate-[spin_10s_linear_infinite]"></div>
@@ -103,27 +93,19 @@ export default function Hero({ scrollToSection }: { scrollToSection: (id: string
                             </div>
 
                             {/* Floating Cards */}
-                            <motion.div
-                                animate={{ y: [0, -20, 0] }}
-                                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                                className="absolute top-0 right-0 bg-glass-medium backdrop-blur-md p-4 rounded-xl border border-white/10 shadow-lg"
-                            >
+                            <div className="absolute top-0 right-0 bg-glass-medium backdrop-blur-md p-4 rounded-xl border border-white/10 shadow-lg animate-float">
                                 <Code className="w-8 h-8 text-accent-cyan mb-2" />
                                 <div className="text-xs text-gray-400">Stack</div>
                                 <div className="font-bold text-white">Full-Stack</div>
-                            </motion.div>
+                            </div>
 
-                            <motion.div
-                                animate={{ y: [0, 20, 0] }}
-                                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                                className="absolute bottom-10 left-0 bg-glass-medium backdrop-blur-md p-4 rounded-xl border border-white/10 shadow-lg"
-                            >
+                            <div className="absolute bottom-10 left-0 bg-glass-medium backdrop-blur-md p-4 rounded-xl border border-white/10 shadow-lg animate-float [animation-delay:1.5s]">
                                 <Server className="w-8 h-8 text-accent-magenta mb-2" />
                                 <div className="text-xs text-gray-400">Focus</div>
                                 <div className="font-bold text-white">Scalable Solutions</div>
-                            </motion.div>
+                            </div>
                         </div>
-                    </motion.div>
+                    </div>
                 </div>
             </div>
         </section>

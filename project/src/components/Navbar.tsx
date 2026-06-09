@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Code, Github, Linkedin } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+
 
 export default function Navbar({ activeSection, scrollToSection }: { activeSection: string, scrollToSection: (id: string) => void }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,12 +24,9 @@ export default function Navbar({ activeSection, scrollToSection }: { activeSecti
     ];
 
     return (
-        <motion.header
+        <header
             className={`fixed w-full top-0 z-50 transition-all duration-300 ${scrolled ? 'bg-obsidian/80 backdrop-blur-md border-b border-white/10' : 'bg-transparent'
                 }`}
-            initial={{ y: -100 }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.5 }}
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-16 py-4">
                 <div className="flex items-center justify-between">
@@ -59,12 +56,11 @@ export default function Navbar({ activeSection, scrollToSection }: { activeSecti
                                     }`}
                             >
                                 {item.label}
-                                {activeSection === item.id && (
-                                    <motion.div
-                                        layoutId="activeTab"
-                                        className="absolute -bottom-1 left-0 right-0 h-0.5 bg-accent-cyan shadow-[0_0_10px_#00F0FF]"
-                                    />
-                                )}
+                                <div
+                                    className={`absolute -bottom-1 left-0 right-0 h-0.5 bg-accent-cyan shadow-[0_0_10px_#00F0FF] transition-transform duration-300 origin-center ${
+                                        activeSection === item.id ? 'scale-x-100' : 'scale-x-0'
+                                    }`}
+                                />
                             </button>
                         ))}
 
@@ -93,35 +89,30 @@ export default function Navbar({ activeSection, scrollToSection }: { activeSecti
             </div>
 
             {/* Mobile Navigation */}
-            <AnimatePresence>
-                {isMenuOpen && (
-                    <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="md:hidden bg-obsidian/95 backdrop-blur-xl border-b border-white/10 overflow-hidden"
-                    >
-                        <nav className="flex flex-col p-4 space-y-4">
-                            {navItems.map((item) => (
-                                <button
-                                    key={item.id}
-                                    onClick={() => {
-                                        scrollToSection(item.id);
-                                        setIsMenuOpen(false);
-                                    }}
-                                    aria-current={activeSection === item.id ? 'page' : undefined}
-                                    className={`text-left py-2 px-4 rounded-lg transition-colors ${activeSection === item.id
-                                        ? 'bg-accent-cyan/10 text-accent-cyan border border-accent-cyan/20'
-                                        : 'text-gray-400 hover:text-white hover:bg-white/5'
-                                        }`}
-                                >
-                                    {item.label}
-                                </button>
-                            ))}
-                        </nav>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </motion.header>
+            <div
+                className={`md:hidden bg-obsidian/95 backdrop-blur-xl border-b border-white/10 overflow-hidden transition-all duration-300 ease-in-out ${
+                    isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
+                }`}
+            >
+                <nav className="flex flex-col p-4 space-y-4">
+                    {navItems.map((item) => (
+                        <button
+                            key={item.id}
+                            onClick={() => {
+                                scrollToSection(item.id);
+                                setIsMenuOpen(false);
+                            }}
+                            aria-current={activeSection === item.id ? 'page' : undefined}
+                            className={`text-left py-2 px-4 rounded-lg transition-colors ${activeSection === item.id
+                                ? 'bg-accent-cyan/10 text-accent-cyan border border-accent-cyan/20'
+                                : 'text-gray-400 hover:text-white hover:bg-white/5'
+                                }`}
+                        >
+                            {item.label}
+                        </button>
+                    ))}
+                </nav>
+            </div>
+        </header>
     );
 }
