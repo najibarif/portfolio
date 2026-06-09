@@ -1,0 +1,6 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Sitemaps (if any exist in the future)
+# Sitemap: https://naufalnajibarif.vercel.app/sitemap.xml

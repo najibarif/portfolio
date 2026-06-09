@@ -17,7 +17,7 @@ export default function Portfolio() {
             category: "Full-Stack Web",
             type: "web",
             description: "A comprehensive job search platform with advanced filtering and real-time scraping capabilities.",
-            image: "lookforjob.png",
+            image: "lookforjob.webp",
             technologies: ["React", "Laravel", "MySQL", "Scraping"],
             liveUrl: "https://look-for-job.vercel.app/",
             caseStudyUrl: "https://github.com/najibarif/lookforjob.git",
@@ -29,7 +29,7 @@ export default function Portfolio() {
             category: "E-Commerce",
             type: "web",
             description: "A digital ecosystem for MSMEs to manage products and connect with customers effectively.",
-            image: "myumkm.png",
+            image: "myumkm.webp",
             technologies: ["Next.js", "Node.js", "PostgreSQL"],
             liveUrl: "https://myumkm.vercel.app/",
             caseStudyUrl: "https://github.com/najibarif/myumkm-v2",
@@ -41,7 +41,7 @@ export default function Portfolio() {
             category: "Algorithm Visualizer",
             type: "web",
             description: "An interactive educational tool to visualize the linear search algorithm step-by-step.",
-            image: "linearsearch.png",
+            image: "linearsearch.webp",
             technologies: ["React", "Framer Motion", "Algorithms"],
             liveUrl: "https://linear-search-visual.vercel.app/",
             caseStudyUrl: "https://github.com/najibarif/linear-search-visualization.git",
@@ -120,7 +120,11 @@ export default function Portfolio() {
                                     <div className="relative overflow-hidden h-64">
                                         <img
                                             src={project.image.includes('http') ? project.image.replace('w=800', 'w=600') : project.image}
-                                            alt={project.title}
+                                            alt={`Screenshot preview of the ${project.title} project`}
+                                            width={960}
+                                            height={540}
+                                            loading="lazy"
+                                            decoding="async"
                                             className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-transparent opacity-80"></div>
@@ -153,13 +157,19 @@ export default function Portfolio() {
                                             <div className="flex items-center justify-between pt-4 border-t border-white/10">
                                                 <a
                                                     href={project.liveUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    aria-label={`View live site for ${project.title}`}
                                                     className="flex items-center gap-2 text-white hover:text-accent-cyan transition-colors text-sm font-medium"
                                                 >
                                                     <Eye className="w-4 h-4" /> View Live
                                                 </a>
                                                 <a
                                                     href={project.caseStudyUrl}
-                                                    className="flex items-center gap-2 text-gray-500 hover:text-white transition-colors text-sm"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    aria-label={`View source code for ${project.title}`}
+                                                    className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm"
                                                 >
                                                     <Code className="w-4 h-4" /> Code
                                                 </a>

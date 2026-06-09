@@ -54,6 +54,7 @@ export default function Navbar({ activeSection, scrollToSection }: { activeSecti
                             <button
                                 key={item.id}
                                 onClick={() => scrollToSection(item.id)}
+                                aria-current={activeSection === item.id ? 'page' : undefined}
                                 className={`relative text-sm font-medium tracking-wide transition-colors duration-300 ${activeSection === item.id ? 'text-accent-cyan' : 'text-gray-400 hover:text-white'
                                     }`}
                             >
@@ -82,6 +83,8 @@ export default function Navbar({ activeSection, scrollToSection }: { activeSecti
                     {/* Mobile Menu Button */}
                     <button
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+                        aria-expanded={isMenuOpen}
                         className="md:hidden text-white"
                     >
                         {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -106,6 +109,7 @@ export default function Navbar({ activeSection, scrollToSection }: { activeSecti
                                         scrollToSection(item.id);
                                         setIsMenuOpen(false);
                                     }}
+                                    aria-current={activeSection === item.id ? 'page' : undefined}
                                     className={`text-left py-2 px-4 rounded-lg transition-colors ${activeSection === item.id
                                         ? 'bg-accent-cyan/10 text-accent-cyan border border-accent-cyan/20'
                                         : 'text-gray-400 hover:text-white hover:bg-white/5'

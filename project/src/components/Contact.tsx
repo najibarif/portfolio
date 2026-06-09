@@ -4,10 +4,24 @@ import { Send, Mail, MapPin } from 'lucide-react';
 
 export default function Contact() {
     const [formState, setFormState] = useState({ name: '', email: '', message: '' });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // Form submission logic can be added here
+        setIsSubmitting(true);
+        
+        // Simulate form submission
+        setTimeout(() => {
+            setIsSubmitting(false);
+            setIsSuccess(true);
+            setFormState({ name: '', email: '', message: '' });
+            
+            // Auto hide success message
+            setTimeout(() => {
+                setIsSuccess(false);
+            }, 6000);
+        }, 1200);
     };
 
     return (
@@ -72,9 +86,10 @@ export default function Contact() {
                                     id="name"
                                     type="text"
                                     required
+                                    autoComplete="name"
                                     value={formState.name}
                                     onChange={(e) => setFormState({ ...formState, name: e.target.value })}
-                                    className="w-full bg-charcoal border border-white/10 rounded-xl px-4 py-4 text-white placeholder-gray-600 focus:outline-none focus:border-accent-cyan/50 focus:ring-1 focus:ring-accent-cyan/50 transition-all"
+                                    className="w-full bg-charcoal border border-white/10 rounded-xl px-4 py-4 text-white placeholder-gray-400 focus:outline-none focus:border-accent-cyan/50 focus:ring-1 focus:ring-accent-cyan/50 transition-all"
                                     placeholder="John Doe"
                                 />
                             </div>
@@ -85,9 +100,10 @@ export default function Contact() {
                                     id="email"
                                     type="email"
                                     required
+                                    autoComplete="email"
                                     value={formState.email}
                                     onChange={(e) => setFormState({ ...formState, email: e.target.value })}
-                                    className="w-full bg-charcoal border border-white/10 rounded-xl px-4 py-4 text-white placeholder-gray-600 focus:outline-none focus:border-accent-violet/50 focus:ring-1 focus:ring-accent-violet/50 transition-all"
+                                    className="w-full bg-charcoal border border-white/10 rounded-xl px-4 py-4 text-white placeholder-gray-400 focus:outline-none focus:border-accent-violet/50 focus:ring-1 focus:ring-accent-violet/50 transition-all"
                                     placeholder="john@example.com"
                                 />
                             </div>
@@ -100,17 +116,24 @@ export default function Contact() {
                                     required
                                     value={formState.message}
                                     onChange={(e) => setFormState({ ...formState, message: e.target.value })}
-                                    className="w-full bg-charcoal border border-white/10 rounded-xl px-4 py-4 text-white placeholder-gray-600 focus:outline-none focus:border-accent-cyan/50 focus:ring-1 focus:ring-accent-cyan/50 transition-all resize-none"
+                                    className="w-full bg-charcoal border border-white/10 rounded-xl px-4 py-4 text-white placeholder-gray-400 focus:outline-none focus:border-accent-cyan/50 focus:ring-1 focus:ring-accent-cyan/50 transition-all resize-none"
                                     placeholder="Tell me about your project..."
                                 />
                             </div>
 
+                            {isSuccess && (
+                                <div role="status" className="p-4 bg-accent-cyan/10 border border-accent-cyan/30 rounded-xl text-accent-cyan text-sm font-medium text-center animate-pulse">
+                                    Message sent successfully! Thank you for connecting.
+                                </div>
+                            )}
+
                             <button
                                 type="submit"
-                                className="w-full bg-gradient-to-r from-accent-cyan to-accent-violet text-white font-bold py-4 rounded-xl shadow-lg shadow-accent-cyan/20 hover:shadow-accent-cyan/40 transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2"
+                                disabled={isSubmitting}
+                                className="w-full bg-gradient-to-r from-accent-cyan to-accent-violet text-white font-bold py-4 rounded-xl shadow-lg shadow-accent-cyan/20 hover:shadow-accent-cyan/40 transform hover:-translate-y-1 disabled:hover:transform-none disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 flex items-center justify-center space-x-2"
                             >
-                                <Send className="w-5 h-5" />
-                                <span>Send Message</span>
+                                <Send className={`w-5 h-5 ${isSubmitting ? 'animate-bounce' : ''}`} />
+                                <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
                             </button>
                         </form>
                     </motion.div>

@@ -17,8 +17,12 @@ export default function About() {
                         <div className="relative rounded-2xl p-1 bg-gradient-to-br from-accent-cyan via-accent-violet to-accent-magenta">
                             <div className="bg-obsidian rounded-2xl overflow-hidden relative">
                                 <img
-                                    src="urang.png"
-                                    alt="Profile"
+                                    src="urang.webp"
+                                    alt="Naufal Najib Arif - Portrait in the About Me section"
+                                    width={400}
+                                    height={400}
+                                    loading="lazy"
+                                    decoding="async"
                                     className="w-full h-auto object-cover opacity-80 hover:opacity-100 transition-opacity duration-500"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-transparent"></div>
@@ -73,10 +77,14 @@ export default function About() {
                         </div>
 
                         <div className="pt-6">
-                            <button className="flex items-center space-x-2 bg-gradient-to-r from-accent-cyan to-accent-violet text-white font-bold py-3 px-8 rounded-lg transition-all hover:shadow-[0_0_20px_rgba(0,240,255,0.3)] transform hover:-translate-y-1">
+                            <a
+                                href="#"
+                                download="Naufal_Najib_Arif_Resume.pdf"
+                                className="inline-flex items-center space-x-2 bg-gradient-to-r from-accent-cyan to-accent-violet text-white font-bold py-3 px-8 rounded-lg transition-all hover:shadow-[0_0_20px_rgba(0,240,255,0.3)] transform hover:-translate-y-1"
+                            >
                                 <Download className="w-5 h-5" />
                                 <span>Download Resume</span>
-                            </button>
+                            </a>
                         </div>
                     </motion.div>
                 </div>

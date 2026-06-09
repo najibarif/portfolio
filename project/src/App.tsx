@@ -1,13 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { animate } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import About from './components/About';
-import Skills from './components/Skills';
-import Portfolio from './components/Portfolio';
-import Experience from './components/Experience';
-import Contact from './components/Contact';
 import Footer from './components/Footer';
+
+// Lazy load below-the-fold components to improve initial page load performance
+const About = lazy(() => import('./components/About'));
+const Skills = lazy(() => import('./components/Skills'));
+const Portfolio = lazy(() => import('./components/Portfolio'));
+const Experience = lazy(() => import('./components/Experience'));
+const Contact = lazy(() => import('./components/Contact'));
 
 function App() {
   const [activeSection, setActiveSection] = useState('hero');
@@ -57,11 +59,17 @@ function App() {
       <Navbar activeSection={activeSection} scrollToSection={scrollToSection} />
       <main>
         <Hero scrollToSection={scrollToSection} />
-        <About />
-        <Skills />
-        <Portfolio />
-        <Experience />
-        <Contact />
+        <Suspense fallback={
+          <div className="py-20 text-center text-accent-cyan font-display text-sm tracking-widest animate-pulse">
+            SYSTEM INITIALIZING...
+          </div>
+        }>
+          <About />
+          <Skills />
+          <Portfolio />
+          <Experience />
+          <Contact />
+        </Suspense>
       </main>
       <Footer />
     </div>
