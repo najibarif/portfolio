@@ -1,0 +1,10 @@
+# Ignore the embedded git repository folder to prevent warnings
+najibarif/
+
+# Vercel configuration & environment files (local only)
+.vercel/
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.local
