@@ -66,8 +66,17 @@
 
 .swiper-button-next::after,
 .swiper-button-prev::after {
-  font-size: 1.5rem !important;
+  font-size: 1.25rem !important;
   font-weight: bold;
+  font-family: system-ui, -apple-system, sans-serif !important;
+}
+
+.swiper-button-prev::after {
+  content: '❮' !important;
+}
+
+.swiper-button-next::after {
+  content: '❯' !important;
 }
 
 .swiper-pagination-bullet-active {
@@ -104,4 +113,25 @@
 
 .animate-scale-in {
   animation: scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+}
+
+@keyframes scan {
+  0% {
+    top: 0%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+.animate-scanner {
+  animation: scan 3s linear infinite;
 }
