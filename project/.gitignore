@@ -26,3 +26,6 @@ dist-ssr
 
 .vercel
 .env*
+
+# ESLint temporary log files
+lint_output.txt
