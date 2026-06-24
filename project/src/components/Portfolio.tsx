@@ -139,7 +139,7 @@ export default function Portfolio() {
                     >
                         {filteredProjects.map((project) => (
                             <SwiperSlide key={project.id} className="h-full pt-4 pb-4">
-                                <div className="group h-full bg-obsidian border border-white/10 rounded-2xl overflow-hidden hover:border-accent-cyan/50 transition-all duration-500 hover:shadow-[0_0_30px_rgba(0,240,255,0.15)] flex flex-col">
+                                <div className="group relative h-full bg-obsidian border border-white/10 rounded-2xl overflow-hidden hover:border-accent-cyan/50 transition-all duration-500 hover:shadow-[0_0_30px_rgba(0,240,255,0.15)] flex flex-col">
                                     {/* Image Container */}
                                     <div className="relative overflow-hidden h-64">
                                         <img
@@ -184,7 +184,7 @@ export default function Portfolio() {
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                     aria-label={`View live site for ${project.title}`}
-                                                    className="flex items-center gap-2 text-white hover:text-accent-cyan transition-colors text-sm font-medium"
+                                                    className="flex items-center gap-2 text-white hover:text-accent-cyan group-hover:text-accent-cyan transition-colors text-sm font-medium after:absolute after:inset-0 after:content-[''] after:z-10"
                                                 >
                                                     <Eye className="w-4 h-4" /> View Live
                                                 </a>
@@ -193,7 +193,7 @@ export default function Portfolio() {
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                     aria-label={`View source code for ${project.title}`}
-                                                    className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm"
+                                                    className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm relative z-20"
                                                 >
                                                     <Code className="w-4 h-4" /> Code
                                                 </a>
