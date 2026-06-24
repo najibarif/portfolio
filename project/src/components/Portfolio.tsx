@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Eye, Code } from 'lucide-react';
+import { ArrowUpRight, Code } from 'lucide-react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, A11y, Autoplay } from 'swiper/modules';
 import 'swiper/css';
@@ -140,6 +140,15 @@ export default function Portfolio() {
                         {filteredProjects.map((project) => (
                             <SwiperSlide key={project.id} className="h-full pt-4 pb-4">
                                 <div className="group relative h-full bg-obsidian border border-white/10 rounded-2xl overflow-hidden hover:border-accent-cyan/50 transition-all duration-500 hover:shadow-[0_0_30px_rgba(0,240,255,0.15)] flex flex-col">
+                                    {/* Invisible Overlay Link for Clickable Card */}
+                                    <a
+                                        href={project.liveUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        aria-label={`View live site for ${project.title}`}
+                                        className="absolute inset-0 z-10"
+                                    />
+
                                     {/* Image Container */}
                                     <div className="relative overflow-hidden h-64">
                                         <img
@@ -162,8 +171,9 @@ export default function Portfolio() {
 
                                     {/* Content */}
                                     <div className="p-6 flex-1 flex flex-col">
-                                        <h3 className="text-xl font-bold text-white mb-2 group-hover:text-accent-cyan transition-colors">
+                                        <h3 className="text-xl font-bold text-white mb-2 group-hover:text-accent-cyan transition-colors flex items-center gap-1.5">
                                             {project.title}
+                                            <ArrowUpRight className="w-5 h-5 text-gray-400 group-hover:text-accent-cyan group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
                                         </h3>
                                         <p className="text-gray-400 text-sm mb-6 line-clamp-3">
                                             {project.description}
@@ -178,16 +188,7 @@ export default function Portfolio() {
                                                 ))}
                                             </div>
 
-                                            <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                                                <a
-                                                    href={project.liveUrl}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    aria-label={`View live site for ${project.title}`}
-                                                    className="flex items-center gap-2 text-white hover:text-accent-cyan group-hover:text-accent-cyan transition-colors text-sm font-medium after:absolute after:inset-0 after:content-[''] after:z-10"
-                                                >
-                                                    <Eye className="w-4 h-4" /> View Live
-                                                </a>
+                                            <div className="flex items-center justify-end pt-4 border-t border-white/10">
                                                 <a
                                                     href={project.caseStudyUrl}
                                                     target="_blank"
