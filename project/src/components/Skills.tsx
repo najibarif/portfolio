@@ -1,100 +1,147 @@
-import { motion } from 'framer-motion';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, A11y, Autoplay } from 'swiper/modules';
-import {
-    Code, Server, Database, Github, Palette, Zap, Users,
-    Lightbulb, MessageCircle, CheckCircle
-} from 'lucide-react';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import { useEffect, useRef } from 'react';
+import { Server, Github, Palette, Zap, Users } from 'lucide-react';
+
+const skillCategories = [
+  {
+    title: 'Frontend',
+    icon: Palette,
+    skills: [
+      { name: 'React', tag: 'Primary' },
+      { name: 'TypeScript', tag: '' },
+      { name: 'Next.js', tag: '' },
+      { name: 'Tailwind CSS', tag: 'Primary' },
+      { name: 'Bootstrap', tag: 'Certified' },
+    ],
+  },
+  {
+    title: 'Backend & DB',
+    icon: Server,
+    skills: [
+      { name: 'Laravel', tag: '' },
+      { name: 'Node.js', tag: '' },
+      { name: 'Express.js', tag: '' },
+      { name: 'MySQL', tag: 'Primary' },
+      { name: 'PostgreSQL', tag: '' },
+    ],
+  },
+  {
+    title: 'DevOps & Tools',
+    icon: Github,
+    skills: [
+      { name: 'Git', tag: '' },
+      { name: 'GitHub', tag: 'Primary' },
+      { name: 'IoT / Arduino', tag: 'Certified' },
+      { name: 'Testing', tag: '' },
+      { name: 'Architecture Design', tag: 'Certified' },
+    ],
+  },
+  {
+    title: 'Soft Skills',
+    icon: Users,
+    skills: [
+      { name: 'Communication', tag: '' },
+      { name: 'Problem Solving', tag: '' },
+      { name: 'Team Leadership', tag: '' },
+      { name: 'Academic Assistance', tag: 'TA' },
+    ],
+  },
+];
 
 export default function Skills() {
-    const skills = [
-        { name: 'GitHub', icon: Github, description: 'Version control & collaboration (Primary).' },
-        { name: 'Git', icon: Github, description: 'Distributed version control system.' },
-        { name: 'MySQL', icon: Database, description: 'Relational database management (Primary).' },
-        { name: 'JavaScript', icon: Code, description: 'Bahasa utama web interaktif.' },
-        { name: 'TypeScript', icon: Code, description: 'JavaScript dengan type safety.' },
-        { name: 'React', icon: Code, description: 'Library UI modern berbasis komponen.' },
-        { name: 'Next.js', icon: Code, description: 'Framework React untuk SSR & SSG.' },
-        { name: 'Node.js', icon: Server, description: 'Backend JavaScript runtime.' },
-        { name: 'Express.js', icon: Server, description: 'Framework backend minimalis.' },
-        { name: 'Bootstrap', icon: Palette, description: 'CSS Framework (Certified).' },
-        { name: 'IoT Development', icon: Zap, description: 'Arduino & Embedded Systems.' },
-        { name: 'Architecture Design', icon: Lightbulb, description: 'Perancangan sistem (Certified).' },
-        { name: 'Problem Solving', icon: Zap, description: 'Logika & Algoritma Dasar.' },
-        { name: 'Communication', icon: MessageCircle, description: 'Bureau Communication Experience.' },
-        { name: 'Testing', icon: CheckCircle, description: 'Unit & integration testing.' },
-        { name: 'Academic Asst.', icon: Users, description: 'Database Lab Assistant.' },
-    ];
+  const headerRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
-    return (
-        <section id="skills" className="relative py-20 overflow-hidden">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-16 relative z-10">
-                <div className="text-center mb-16">
-                    <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="text-3xl md:text-5xl font-display font-bold text-white mb-4"
-                    >
-                        MY <span className="text-accent-cyan text-glow">SKILLS</span>
-                    </motion.h2>
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.1 }}
-                        className="text-gray-400 max-w-2xl mx-auto"
-                    >
-                        A comprehensive toolkit for building modern, scalable digital solutions.
-                    </motion.p>
+  useEffect(() => {
+    const header = headerRef.current;
+    if (header) {
+      const obs = new IntersectionObserver(([e]) => {
+        if (e.isIntersecting) header.classList.add('is-visible');
+      }, { threshold: 0.2 });
+      obs.observe(header);
+      return () => obs.disconnect();
+    }
+  }, []);
+
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+    cardsRef.current.forEach((card, index) => {
+      if (!card) return;
+      const obs = new IntersectionObserver(([e]) => {
+        if (e.isIntersecting) {
+          setTimeout(() => {
+            card.classList.add('is-visible');
+          }, index * 100);
+          obs.disconnect();
+        }
+      }, { threshold: 0.2 });
+      obs.observe(card);
+      observers.push(obs);
+    });
+    return () => observers.forEach(o => o.disconnect());
+  }, []);
+
+  return (
+    <section id="skills" className="relative py-24 overflow-hidden bg-neutral-50 dark:bg-transparent transition-colors duration-300">
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
+
+        {/* Header */}
+        <div ref={headerRef} className="reveal text-center mb-16">
+          <div className="inline-flex items-center gap-2 text-neutral-500 text-xs font-mono tracking-widest uppercase mb-4">
+            <span className="text-neutral-400 font-bold">02.</span>
+            <Zap className="w-3.5 h-3.5" />
+            Technical Arsenal
+          </div>
+          <h2 className="text-[clamp(30px,4vw,48px)] font-medium leading-[1.1] tracking-[-0.022em] text-neutral-900 dark:text-white mb-4">
+            My Capabilities.
+          </h2>
+          <p className="text-neutral-500 dark:text-neutral-400 max-w-2xl mx-auto text-[15px] leading-relaxed">
+            A comprehensive toolkit for building modern, scalable digital solutions — from pixel-perfect UIs to robust backend architectures.
+          </p>
+        </div>
+
+        {/* Skill Category Grid (Bento style) */}
+        <div className="grid md:grid-cols-2 gap-6">
+          {skillCategories.map((cat, catIdx) => {
+            const Icon = cat.icon;
+            return (
+              <div
+                key={cat.title}
+                ref={(el) => (cardsRef.current[catIdx] = el)}
+                className="reveal glass-panel p-8 rounded-2xl flex flex-col hover:-translate-y-1 hover:shadow-xl dark:hover:bg-neutral-800 transition-all duration-300 group cursor-default bg-white"
+              >
+                {/* Category header */}
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="w-10 h-10 rounded-full bg-neutral-100 dark:bg-neutral-800/50 flex items-center justify-center border border-neutral-200 dark:border-white/5">
+                    <Icon className="w-4 h-4 text-neutral-600 dark:text-neutral-300" />
+                  </div>
+                  <h3 className="text-lg font-medium tracking-tight text-neutral-900 dark:text-white">
+                    {cat.title}
+                  </h3>
                 </div>
 
-                <motion.div
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ duration: 0.7, ease: 'easeOut' }}
-                >
-                    <Swiper
-                        modules={[Navigation, Pagination, A11y, Autoplay]}
-                        spaceBetween={24}
-                        slidesPerView={1}
-                        breakpoints={{
-                            640: { slidesPerView: 2 },
-                            1024: { slidesPerView: 3 },
-                            1280: { slidesPerView: 4 },
-                        }}
-                        navigation
-                        pagination={{ clickable: true }}
-                        autoplay={{ delay: 3000, disableOnInteraction: false }}
-                        className="pb-16"
+                {/* Skill Pills */}
+                <div className="flex flex-wrap gap-2 mt-auto">
+                  {cat.skills.map((skill) => (
+                    <span
+                      key={skill.name}
+                      className="inline-flex items-center whitespace-nowrap rounded-lg px-3 py-1.5 text-[13.5px] font-medium transition-colors duration-150 ease-in-out bg-neutral-100 dark:bg-neutral-800/60 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-neutral-700 clean-border"
                     >
-                        {skills.map((skill) => {
-                            const IconComponent = skill.icon;
-                            return (
-                                <SwiperSlide key={skill.name} className="h-full pt-4 pb-4">
-                                    <div className="group relative bg-glass-low backdrop-blur-sm border border-white/5 rounded-2xl p-8 hover:bg-glass-medium hover:border-accent-cyan/30 transition-all duration-300 h-full">
+                      {skill.name}
+                      {skill.tag && (
+                        <span className="ml-2 text-[10px] uppercase tracking-wider text-neutral-400 dark:text-neutral-500 bg-neutral-200 dark:bg-neutral-800 px-1.5 py-0.5 rounded border border-neutral-300 dark:border-white/5">
+                          {skill.tag}
+                        </span>
+                      )}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
 
-                                        <div className="absolute inset-0 bg-gradient-to-br from-accent-cyan/0 to-accent-violet/0 group-hover:from-accent-cyan/10 group-hover:to-accent-violet/10 rounded-2xl transition-all duration-500"></div>
-
-                                        <div className="relative flex flex-col items-center text-center">
-                                            <div className="w-16 h-16 bg-gradient-to-br from-accent-cyan/20 to-accent-violet/20 rounded-2xl flex items-center justify-center mb-6 border border-white/10 group-hover:border-accent-cyan/50 group-hover:scale-110 transition-all duration-300">
-                                                <IconComponent className="w-8 h-8 text-accent-cyan group-hover:text-white transition-colors" />
-                                            </div>
-
-                                            <h3 className="text-xl font-bold text-white mb-2">{skill.name}</h3>
-                                            <p className="text-gray-400 text-sm">{skill.description}</p>
-                                        </div>
-                                    </div>
-                                </SwiperSlide>
-                            );
-                        })}
-                    </Swiper>
-                </motion.div>
-            </div>
-        </section>
-    );
+      </div>
+    </section>
+  );
 }
+

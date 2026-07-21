@@ -52,13 +52,13 @@ function App() {
   };
 
   return (
-    <div className="bg-obsidian min-h-screen text-gray-100 selection:bg-accent-cyan/30">
+    <div className="bg-white dark:bg-[#0f1011] min-h-screen text-neutral-900 dark:text-gray-100 selection:bg-neutral-200 dark:selection:bg-white/20 transition-colors duration-300">
       <Navbar activeSection={activeSection} scrollToSection={scrollToSection} />
       <main>
         <Hero scrollToSection={scrollToSection} />
         <Suspense fallback={
-          <div className="py-20 text-center text-accent-cyan font-display text-sm tracking-widest animate-pulse">
-            SYSTEM INITIALIZING...
+          <div className="py-20 text-center text-neutral-500 font-medium text-sm tracking-widest animate-pulse">
+            LOADING...
           </div>
         }>
           <About />

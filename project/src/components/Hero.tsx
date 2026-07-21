@@ -1,113 +1,148 @@
+import { useEffect, useState } from 'react';
+import { ArrowRight, Code, Server, Database, Cpu, Terminal } from 'lucide-react';
 
-import { ArrowRight, Code, Database, Server } from 'lucide-react';
+const roles = [
+  'Full-Stack Developer',
+  'UI/UX Enthusiast',
+  'React Engineer',
+  'Problem Solver',
+];
 
 export default function Hero({ scrollToSection }: { scrollToSection: (id: string) => void }) {
-    return (
-        <section id="hero" className="relative min-h-screen flex items-center pt-20 overflow-hidden">
-            {/* Background Elements */}
-            <div className="absolute inset-0 z-0">
-                <div className="absolute top-0 left-0 w-full h-full bg-cyber-grid bg-[length:50px_50px] opacity-20"></div>
-                <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-accent-violet/20 rounded-full blur-[100px] animate-pulse-slow"></div>
-                <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent-cyan/20 rounded-full blur-[100px] animate-pulse-slow delay-1000"></div>
+  const [displayText, setDisplayText] = useState('');
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [charIndex, setCharIndex] = useState(0);
+
+  /* Typewriter logic */
+  useEffect(() => {
+    const current = roles[roleIndex];
+    const speed = isDeleting ? 40 : 80;
+
+    const timer = setTimeout(() => {
+      if (!isDeleting) {
+        setDisplayText(current.slice(0, charIndex + 1));
+        setCharIndex((c) => c + 1);
+        if (charIndex + 1 === current.length) {
+          setTimeout(() => setIsDeleting(true), 1800);
+        }
+      } else {
+        setDisplayText(current.slice(0, charIndex - 1));
+        setCharIndex((c) => c - 1);
+        if (charIndex - 1 === 0) {
+          setIsDeleting(false);
+          setRoleIndex((r) => (r + 1) % roles.length);
+        }
+      }
+    }, speed);
+
+    return () => clearTimeout(timer);
+  }, [charIndex, isDeleting, roleIndex]);
+
+  return (
+    <section id="hero" className="relative flex items-center pt-16 md:pt-24 pb-10 overflow-hidden bg-grid-pattern">
+      
+      {/* ── Background Subtle Gradients ── */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white dark:to-transparent z-10" />
+        <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-neutral-200/50 dark:bg-accent-cyan/5 rounded-full blur-[120px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] bg-neutral-300/50 dark:bg-accent-violet/5 rounded-full blur-[100px]" />
+      </div>
+
+      <div className="max-w-6xl mx-auto px-6 relative z-10 w-full">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          
+          {/* ── Left: Text Content ── */}
+          <div className="space-y-8">
+            
+            {/* Main heading */}
+            <div className="space-y-4">
+              <div className="lp-hero-in font-mono text-neutral-500 dark:text-neutral-400 text-sm tracking-widest flex items-center gap-2 [animation-delay:0.1s]">
+                <Terminal className="w-4 h-4" />
+                <span>najib.dev@portfolio:~$</span>
+                <span className="text-neutral-800 dark:text-neutral-200">whoami</span>
+              </div>
+
+              <h1 className="lp-hero-in text-[clamp(44px,6.5vw,72px)] font-medium leading-[1.06] tracking-[-0.022em] text-balance text-neutral-900 dark:text-white [animation-delay:0.2s]">
+                Naufal Najib
+                <span className="block text-neutral-500 dark:text-neutral-400">Arif.</span>
+              </h1>
+
+              {/* Typewriter role */}
+              <div className="lp-hero-in flex items-center gap-2 h-8 [animation-delay:0.3s]">
+                <span className="text-neutral-400 dark:text-neutral-500 text-lg">{'>'}</span>
+                <span className="text-xl text-neutral-800 dark:text-neutral-300 font-mono font-medium min-w-[2px]">
+                  {displayText}
+                </span>
+                <span className="w-2.5 h-5 bg-neutral-800 dark:bg-neutral-300 animate-pulse ml-0.5" />
+              </div>
+
+              <p className="lp-hero-in text-[clamp(15px,1.6vw,19px)] font-medium leading-[1.5] tracking-[-0.012em] text-neutral-500 dark:text-neutral-400 max-w-xl mt-6 [animation-delay:0.4s]">
+                Building immersive, high-performance web applications that merge aesthetic precision with robust engineering. CS Education student at UPI Bandung.
+              </p>
             </div>
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-16 relative z-10 w-full">
-                <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* CTAs */}
+            <div className="lp-hero-in flex flex-col sm:flex-row gap-4 pt-2 [animation-delay:0.5s]">
+              <button
+                onClick={() => scrollToSection('portfolio')}
+                className="inline-flex h-11 cursor-pointer items-center justify-center rounded-full bg-neutral-900 dark:bg-white px-6 text-[15px] font-medium text-white dark:text-neutral-900 transition hover:bg-neutral-800 dark:hover:bg-neutral-200 active:scale-[0.97]"
+              >
+                View Projects
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </button>
 
-                    {/* Text Content */}
-                    <div className="space-y-8 animate-slide-in-left">
-                        <div className="inline-flex items-center px-4 py-2 bg-white/5 border border-accent-cyan/30 rounded-full backdrop-blur-sm">
-                            <span className="w-2 h-2 bg-accent-cyan rounded-full mr-3 animate-pulse"></span>
-                            <span className="text-accent-cyan text-xs font-display tracking-widest uppercase">
-                                System Online
-                            </span>
-                        </div>
+              <button
+                onClick={() => scrollToSection('contact')}
+                className="inline-flex h-11 cursor-pointer items-center justify-center rounded-full bg-neutral-100 dark:bg-neutral-800/50 px-6 text-[15px] font-medium text-neutral-900 dark:text-white transition hover:bg-neutral-200 dark:hover:bg-neutral-800 active:scale-[0.97]"
+              >
+                Start Collaboration
+              </button>
+            </div>
 
-                        <div className="space-y-4">
-                            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-display font-bold leading-tight text-white">
-                                CRAFTING
-                                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan via-white to-accent-violet">
-                                    DIGITAL REALITY
-                                </span>
-                            </h1>
-
-                            <p className="text-lg text-gray-400 max-w-xl leading-relaxed border-l-2 border-accent-cyan/50 pl-6">
-                                I'm Naufal Najib Arif, a Full-Stack Developer specializing in building immersive, high-performance web applications that merge aesthetic precision with robust engineering.
-                            </p>
-                        </div>
-
-                        <div className="flex flex-col sm:flex-row gap-4">
-                            <button
-                                onClick={() => scrollToSection('portfolio')}
-                                className="group relative px-8 py-4 bg-accent-cyan text-obsidian font-bold rounded-lg overflow-hidden transition-all hover:scale-105"
-                            >
-                                <div className="absolute inset-0 bg-white/30 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-                                <span className="relative flex items-center">
-                                    View Projects <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                                </span>
-                            </button>
-
-                            <button
-                                onClick={() => scrollToSection('contact')}
-                                className="px-8 py-4 bg-transparent border border-accent-cyan/30 text-accent-cyan font-bold rounded-lg hover:bg-accent-cyan/10 transition-all hover:border-accent-cyan"
-                            >
-                                Start Collaboration
-                            </button>
-                        </div>
-
-                        <div className="flex items-center gap-6 pt-4 text-gray-400">
-                            <div className="flex items-center gap-2">
-                                <Code className="w-5 h-5 text-accent-violet" />
-                                <span className="text-sm">Clean Code</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <Server className="w-5 h-5 text-accent-cyan" />
-                                <span className="text-sm">Robust API</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <Database className="w-5 h-5 text-accent-magenta" />
-                                <span className="text-sm">Scalable</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Visual Element */}
-                    <div className="relative hidden lg:block animate-scale-in">
-                        <div className="relative w-full aspect-square max-w-[500px] mx-auto">
-                            {/* Rotating Rings */}
-                            <div className="absolute inset-0 border border-accent-cyan/20 rounded-full animate-[spin_10s_linear_infinite]"></div>
-                            <div className="absolute inset-8 border border-accent-violet/20 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
-                            <div className="absolute inset-16 border border-accent-magenta/20 rounded-full animate-[spin_20s_linear_infinite]"></div>
-
-                            {/* Central Image container */}
-                            <div className="absolute inset-24 rounded-full overflow-hidden border-2 border-accent-cyan/50 shadow-[0_0_50px_rgba(0,240,255,0.2)]">
-                                <img
-                                    src="/urang.webp"
-                                    alt="Naufal Najib Arif - Full-Stack Developer Profile Portrait"
-                                    width={500}
-                                    height={500}
-                                    fetchPriority="high"
-                                    className="w-full h-full object-cover"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-transparent"></div>
-                            </div>
-
-                            {/* Floating Cards */}
-                            <div className="absolute top-0 right-0 bg-glass-medium backdrop-blur-md p-4 rounded-xl border border-white/10 shadow-lg animate-float">
-                                <Code className="w-8 h-8 text-accent-cyan mb-2" />
-                                <div className="text-xs text-gray-400">Stack</div>
-                                <div className="font-bold text-white">Full-Stack</div>
-                            </div>
-
-                            <div className="absolute bottom-10 left-0 bg-glass-medium backdrop-blur-md p-4 rounded-xl border border-white/10 shadow-lg animate-float [animation-delay:1.5s]">
-                                <Server className="w-8 h-8 text-accent-magenta mb-2" />
-                                <div className="text-xs text-gray-400">Focus</div>
-                                <div className="font-bold text-white">Scalable Solutions</div>
-                            </div>
-                        </div>
-                    </div>
+            {/* Feature badges */}
+            <div className="lp-hero-in flex flex-wrap items-center gap-5 pt-4 [animation-delay:0.6s]">
+              {[
+                { icon: Code, label: 'Clean Code' },
+                { icon: Server, label: 'Robust API' },
+                { icon: Database, label: 'Scalable DB' },
+                { icon: Cpu, label: 'IoT Ready' },
+              ].map(({ icon: Icon, label }) => (
+                <div key={label} className="flex items-center gap-2 text-neutral-500 dark:text-neutral-400 text-sm font-medium">
+                  <Icon className="w-4 h-4" />
+                  <span>{label}</span>
                 </div>
+              ))}
             </div>
-        </section>
-    );
+          </div>
+
+          {/* ── Right: Visual Element ── */}
+          <div className="relative hidden lg:block lp-hero-in [animation-delay:0.4s]">
+            <div className="relative w-full aspect-square max-w-[420px] mx-auto group">
+              
+              {/* Back Accent */}
+              <div className="absolute inset-0 rounded-[2.5rem_6rem_2.5rem_2.5rem] bg-neutral-200 dark:bg-white/5 translate-x-4 translate-y-4 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-500" />
+              
+              {/* Clean Profile Image Container */}
+              <div className="absolute inset-0 rounded-[2.5rem_6rem_2.5rem_2.5rem] overflow-hidden clean-border bg-neutral-100 dark:bg-neutral-900 shadow-xl transition-transform duration-500 group-hover:-translate-y-2 group-hover:-translate-x-2">
+                <img
+                  src="/urang.webp"
+                  alt="Naufal Najib Arif"
+                  fetchPriority="high"
+                  className="w-full h-full object-cover object-top scale-[1.15] transition-transform duration-700 group-hover:scale-[1.25]"
+                />
+                
+                {/* Subtle gradient overlay at bottom for depth */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+              </div>
+
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  );
 }
+
