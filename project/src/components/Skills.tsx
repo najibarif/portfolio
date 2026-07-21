@@ -107,10 +107,10 @@ export default function Skills() {
               <div
                 key={cat.title}
                 ref={(el) => (cardsRef.current[catIdx] = el)}
-                className="reveal glass-panel p-8 rounded-2xl flex flex-col hover:-translate-y-1 hover:shadow-xl dark:hover:bg-neutral-800 transition-all duration-300 group cursor-default bg-white"
+                className="reveal glass-panel p-5 sm:p-8 rounded-2xl flex flex-col hover:-translate-y-1 hover:shadow-xl dark:hover:bg-neutral-800 transition-all duration-300 group cursor-default bg-white"
               >
                 {/* Category header */}
-                <div className="flex items-center gap-3 mb-8">
+                <div className="flex items-center gap-3 mb-5 sm:mb-8">
                   <div className="w-10 h-10 rounded-full bg-neutral-100 dark:bg-neutral-800/50 flex items-center justify-center border border-neutral-200 dark:border-white/5">
                     <Icon className="w-4 h-4 text-neutral-600 dark:text-neutral-300" />
                   </div>
