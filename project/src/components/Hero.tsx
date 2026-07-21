@@ -78,7 +78,7 @@ export default function Hero({ scrollToSection }: { scrollToSection: (id: string
               </div>
 
               <p className="lp-hero-in text-[14px] md:text-[clamp(15px,1.6vw,19px)] font-medium leading-[1.6] tracking-[-0.012em] text-neutral-500 dark:text-neutral-400 max-w-xl mt-4 md:mt-6 [animation-delay:0.4s]">
-                Building immersive, high-performance web applications that merge aesthetic precision with robust engineering. CS Education student at UPI Bandung.
+                Crafting high-performance web applications with clean code and aesthetic precision.
               </p>
             </div>
 
