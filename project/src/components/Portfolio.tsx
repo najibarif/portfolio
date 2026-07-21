@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { ArrowUpRight, Github, ExternalLink, Layers } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const projects = [
   {
@@ -67,24 +68,15 @@ const filters = [
 ];
 
 function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = cardRef.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) el.classList.add('is-visible'); },
-      { threshold: 0.1 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
-
   return (
-    <div
-      ref={cardRef}
-      className="reveal group relative bg-white dark:bg-[#1a1b1e] rounded-2xl overflow-hidden transition-all duration-300 flex flex-col card-hover-clean clean-border"
-      style={{ transitionDelay: `${index * 80}ms` }}
+    <motion.div
+      layout
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      transition={{ duration: 0.5, delay: index * 0.05, type: "spring", bounce: 0 }}
+      className="group relative bg-white dark:bg-[#1a1b1e] rounded-2xl overflow-hidden flex flex-col clean-border"
+      whileHover={{ scale: 1.02, y: -4 }}
     >
       <div className="relative h-full flex flex-col">
         {/* Image */}
@@ -156,7 +148,6 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
           </div>
         </div>
 
-        {/* Full card link */}
         <a
           href={project.liveUrl}
           target="_blank"
@@ -165,27 +156,16 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
           className="absolute inset-0 z-10"
         />
       </div>
-    </div>
+    </motion.div>
   );
 }
 
 export default function Portfolio() {
   const [activeFilter, setActiveFilter] = useState('all');
-  const headerRef = useRef<HTMLDivElement>(null);
 
   const filtered = activeFilter === 'all'
     ? projects
     : projects.filter((p) => p.type === activeFilter);
-
-  useEffect(() => {
-    const el = headerRef.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) el.classList.add('is-visible');
-    }, { threshold: 0.2 });
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
 
   return (
     <section id="portfolio" className="relative py-24 bg-neutral-100 dark:bg-[#0f1011] transition-colors duration-300 overflow-hidden">
@@ -193,7 +173,13 @@ export default function Portfolio() {
       <div className="max-w-6xl mx-auto px-6 relative z-10">
 
         {/* Header */}
-        <div ref={headerRef} className="reveal text-center mb-16">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.7, type: "spring", bounce: 0 }}
+          className="text-center mb-16"
+        >
           <div className="inline-flex items-center gap-2 text-neutral-500 text-xs font-mono tracking-widest uppercase mb-4">
             <span className="text-neutral-400 font-bold">03.</span>
             <Layers className="w-3.5 h-3.5" />
@@ -223,19 +209,25 @@ export default function Portfolio() {
               </button>
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map((project, i) => (
-            <ProjectCard key={project.id} project={project} index={i} />
-          ))}
+        <motion.div layout className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <AnimatePresence mode="popLayout">
+            {filtered.map((project, i) => (
+              <ProjectCard key={project.id} project={project} index={i} />
+            ))}
+          </AnimatePresence>
           {filtered.length === 0 && (
-            <div className="col-span-full text-center text-neutral-500 dark:text-neutral-400 py-20 font-mono text-sm bg-white/50 dark:bg-neutral-900/50 rounded-2xl clean-border">
+            <motion.div 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }} 
+              className="col-span-full text-center text-neutral-500 dark:text-neutral-400 py-20 font-mono text-sm bg-white/50 dark:bg-neutral-900/50 rounded-2xl clean-border"
+            >
               No projects match this filter yet — coming soon.
-            </div>
+            </motion.div>
           )}
-        </div>
+        </motion.div>
 
         {/* View More CTA */}
         <div className="text-center mt-16">

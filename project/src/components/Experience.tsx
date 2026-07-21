@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
 import { Briefcase, Calendar, Award, History } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const experiences = [
   {
@@ -45,33 +45,6 @@ const experiences = [
 ];
 
 export default function Experience() {
-  const headerRef = useRef<HTMLDivElement>(null);
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  useEffect(() => {
-    const observers: IntersectionObserver[] = [];
-
-    if (headerRef.current) {
-      const obs = new IntersectionObserver(([e]) => {
-        if (e.isIntersecting) headerRef.current?.classList.add('is-visible');
-      }, { threshold: 0.2 });
-      obs.observe(headerRef.current);
-      observers.push(obs);
-    }
-
-    cardRefs.current.forEach((el, i) => {
-      if (!el) return;
-      const obs = new IntersectionObserver(([e]) => {
-        if (e.isIntersecting) {
-          setTimeout(() => el.classList.add('is-visible'), i * 120);
-        }
-      }, { threshold: 0.1 });
-      obs.observe(el);
-      observers.push(obs);
-    });
-
-    return () => observers.forEach((o) => o.disconnect());
-  }, []);
 
   return (
     <section id="experience" className="relative py-24 bg-white dark:bg-transparent transition-colors duration-300 overflow-hidden">
@@ -79,7 +52,13 @@ export default function Experience() {
       <div className="max-w-4xl mx-auto px-6 relative z-10">
 
         {/* Header */}
-        <div ref={headerRef} className="reveal text-center mb-16">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.7, type: "spring", bounce: 0 }}
+          className="text-center mb-16"
+        >
           <div className="inline-flex items-center gap-2 text-neutral-500 text-xs font-mono tracking-widest uppercase mb-4">
             <span className="text-neutral-400 font-bold">04.</span>
             <History className="w-3.5 h-3.5" />
@@ -88,7 +67,7 @@ export default function Experience() {
           <h2 className="text-[clamp(30px,4vw,48px)] font-medium leading-[1.1] tracking-[-0.022em] text-neutral-900 dark:text-white mb-4">
             Experience.
           </h2>
-        </div>
+        </motion.div>
 
         {/* Timeline */}
         <div className="relative">
@@ -100,10 +79,13 @@ export default function Experience() {
               const isRight = index % 2 === 0;
 
               return (
-                <div
+                <motion.div
                   key={exp.id}
-                  ref={(el) => { cardRefs.current[index] = el; }}
-                  className={`reveal relative flex flex-col md:flex-row gap-6 md:gap-12 items-start ${isRight ? 'md:flex-row-reverse' : ''}`}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.7, type: "spring", bounce: 0 }}
+                  className={`relative flex flex-col md:flex-row gap-6 md:gap-12 items-start ${isRight ? 'md:flex-row-reverse' : ''}`}
                 >
                   {/* Timeline dot */}
                   <div className="absolute left-6 md:left-1/2 w-4 h-4 rounded-full bg-white dark:bg-[#0f1011] border-[3px] border-neutral-300 dark:border-neutral-600 -translate-x-1/2 z-10 flex items-center justify-center mt-6">
@@ -112,7 +94,10 @@ export default function Experience() {
 
                   {/* Card */}
                   <div className="w-full md:w-[calc(50%-2.5rem)] pl-16 md:pl-0">
-                    <div className="bg-white dark:bg-neutral-900/50 backdrop-blur-md clean-border p-6 rounded-2xl hover:-translate-y-1 hover:shadow-xl dark:hover:bg-neutral-800 transition-all duration-300 group cursor-default">
+                    <motion.div 
+                      whileHover={{ scale: 1.02, y: -4 }}
+                      className="bg-white dark:bg-neutral-900/50 backdrop-blur-md clean-border p-6 rounded-2xl hover:shadow-xl dark:hover:bg-neutral-800 transition-colors duration-300 group cursor-default"
+                    >
 
                       {/* Card header */}
                       <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
@@ -140,12 +125,12 @@ export default function Experience() {
                           </div>
                         ))}
                       </div>
-                    </div>
+                    </motion.div>
                   </div>
 
                   {/* Spacer for opposite side */}
                   <div className="hidden md:block w-[calc(50%-2.5rem)]" />
-                </div>
+                </motion.div>
               );
             })}
           </div>

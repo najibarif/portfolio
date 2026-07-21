@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
 import { Server, Github, Palette, Zap, Users } from 'lucide-react';
+import { motion, Variants } from 'framer-motion';
 
 const skillCategories = [
   {
@@ -48,44 +48,31 @@ const skillCategories = [
 ];
 
 export default function Skills() {
-  const headerRef = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 },
+    },
+  };
 
-  useEffect(() => {
-    const header = headerRef.current;
-    if (header) {
-      const obs = new IntersectionObserver(([e]) => {
-        if (e.isIntersecting) header.classList.add('is-visible');
-      }, { threshold: 0.2 });
-      obs.observe(header);
-      return () => obs.disconnect();
-    }
-  }, []);
-
-  useEffect(() => {
-    const observers: IntersectionObserver[] = [];
-    cardsRef.current.forEach((card, index) => {
-      if (!card) return;
-      const obs = new IntersectionObserver(([e]) => {
-        if (e.isIntersecting) {
-          setTimeout(() => {
-            card.classList.add('is-visible');
-          }, index * 100);
-          obs.disconnect();
-        }
-      }, { threshold: 0.2 });
-      obs.observe(card);
-      observers.push(obs);
-    });
-    return () => observers.forEach(o => o.disconnect());
-  }, []);
+  const cardVariants: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { type: 'spring', bounce: 0, duration: 0.8 } },
+  };
 
   return (
     <section id="skills" className="relative py-24 overflow-hidden bg-neutral-50 dark:bg-transparent transition-colors duration-300">
       <div className="max-w-6xl mx-auto px-6 relative z-10">
 
         {/* Header */}
-        <div ref={headerRef} className="reveal text-center mb-16">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.7, type: "spring", bounce: 0 }}
+          className="text-center mb-16"
+        >
           <div className="inline-flex items-center gap-2 text-neutral-500 text-xs font-mono tracking-widest uppercase mb-4">
             <span className="text-neutral-400 font-bold">02.</span>
             <Zap className="w-3.5 h-3.5" />
@@ -97,17 +84,24 @@ export default function Skills() {
           <p className="text-neutral-500 dark:text-neutral-400 max-w-2xl mx-auto text-[15px] leading-relaxed">
             A comprehensive toolkit for building modern, scalable digital solutions — from pixel-perfect UIs to robust backend architectures.
           </p>
-        </div>
+        </motion.div>
 
         {/* Skill Category Grid (Bento style) */}
-        <div className="grid md:grid-cols-2 gap-6">
-          {skillCategories.map((cat, catIdx) => {
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-50px" }}
+          className="grid md:grid-cols-2 gap-6"
+        >
+          {skillCategories.map((cat) => {
             const Icon = cat.icon;
             return (
-              <div
+              <motion.div
                 key={cat.title}
-                ref={(el) => (cardsRef.current[catIdx] = el)}
-                className="reveal glass-panel p-5 sm:p-8 rounded-2xl flex flex-col hover:-translate-y-1 hover:shadow-xl dark:hover:bg-neutral-800 transition-all duration-300 group cursor-default bg-white"
+                variants={cardVariants}
+                whileHover={{ scale: 1.02, y: -4 }}
+                className="glass-panel p-5 sm:p-8 rounded-2xl flex flex-col dark:hover:bg-neutral-800 transition-colors duration-300 group cursor-default bg-white"
               >
                 {/* Category header */}
                 <div className="flex items-center gap-3 mb-5 sm:mb-8">
@@ -135,10 +129,10 @@ export default function Skills() {
                     </span>
                   ))}
                 </div>
-              </div>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
 
       </div>
     </section>

@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { Send, Mail, MapPin, Github, Linkedin, Instagram, MessageSquare } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const socials = [
   { href: 'https://github.com/najibarif', icon: Github, label: 'GitHub' },
@@ -11,26 +12,6 @@ export default function Contact() {
   const [formState, setFormState] = useState({ name: '', email: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const headerRef = useRef<HTMLDivElement>(null);
-  const leftRef = useRef<HTMLDivElement>(null);
-  const rightRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const pairs: [React.RefObject<HTMLDivElement | null>][] = [
-      [headerRef],
-      [leftRef],
-      [rightRef],
-    ];
-    const observers = pairs.map(([ref]) => {
-      if (!ref.current) return null;
-      const obs = new IntersectionObserver(([e]) => {
-        if (e.isIntersecting) ref.current?.classList.add('is-visible');
-      }, { threshold: 0.15 });
-      obs.observe(ref.current);
-      return obs;
-    });
-    return () => observers.forEach((o) => o?.disconnect());
-  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,7 +30,13 @@ export default function Contact() {
       <div className="max-w-6xl mx-auto px-6 relative z-10">
 
         {/* Header */}
-        <div ref={headerRef} className="reveal text-center mb-16">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.7, type: "spring", bounce: 0 }}
+          className="text-center mb-16"
+        >
           <div className="inline-flex items-center gap-2 text-neutral-500 text-xs font-mono tracking-widest uppercase mb-4">
             <span className="text-neutral-400 font-bold">05.</span>
             <MessageSquare className="w-3.5 h-3.5" />
@@ -61,12 +48,18 @@ export default function Contact() {
           <p className="text-neutral-500 dark:text-neutral-400 max-w-md mx-auto text-[15px] leading-relaxed">
             Have a project in mind or want to collaborate? I'm always open to new opportunities and ideas.
           </p>
-        </div>
+        </motion.div>
 
         <div className="grid lg:grid-cols-5 gap-12 items-start">
 
           {/* ── Left: Info ── */}
-          <div ref={leftRef} className="reveal-left lg:col-span-2 space-y-8">
+          <motion.div 
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.7, type: "spring", bounce: 0 }}
+            className="lg:col-span-2 space-y-8"
+          >
 
             {/* Contact details */}
             <div className="space-y-6">
@@ -97,16 +90,18 @@ export default function Contact() {
               <div className="text-xs text-neutral-400 font-medium uppercase tracking-wider mb-4">Find Me Online</div>
               <div className="flex gap-3">
                 {socials.map(({ href, icon: Icon, label }) => (
-                  <a
+                  <motion.a
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                     key={label}
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={label}
-                    className="w-10 h-10 rounded-xl bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-white/10 flex items-center justify-center text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-700 hover:text-neutral-900 dark:hover:text-white transition-all duration-300 shadow-sm"
+                    className="w-10 h-10 rounded-xl bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-white/10 flex items-center justify-center text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-700 hover:text-neutral-900 dark:hover:text-white transition-colors shadow-sm"
                   >
                     <Icon className="w-4 h-4" />
-                  </a>
+                  </motion.a>
                 ))}
               </div>
             </div>
@@ -122,10 +117,16 @@ export default function Contact() {
                 <div className="text-neutral-500 dark:text-neutral-400 text-xs">Open to freelance & collaboration</div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* ── Right: Form ── */}
-          <div ref={rightRef} className="reveal-right lg:col-span-3">
+          <motion.div 
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.7, type: "spring", bounce: 0 }}
+            className="lg:col-span-3"
+          >
             <div className="bg-white dark:bg-[#1a1b1e] border border-neutral-200 dark:border-white/10 p-8 rounded-2xl shadow-sm clean-border relative overflow-hidden">
               
               <form onSubmit={handleSubmit} className="space-y-5 relative z-10">
@@ -174,17 +175,19 @@ export default function Contact() {
                   </div>
                 )}
 
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full relative overflow-hidden bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 font-medium py-3.5 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 hover:bg-neutral-800 dark:hover:bg-neutral-200 hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:bg-neutral-900 dark:disabled:hover:bg-white"
+                  className="w-full relative overflow-hidden bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 font-medium py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2 hover:bg-neutral-800 dark:hover:bg-neutral-200 disabled:opacity-60 disabled:cursor-not-allowed disabled:bg-neutral-900 dark:disabled:bg-white"
                 >
                   <Send className={`w-4 h-4 ${isSubmitting ? 'animate-bounce' : ''}`} />
                   <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
-                </button>
+                </motion.button>
               </form>
             </div>
-          </div>
+          </motion.div>
 
         </div>
       </div>

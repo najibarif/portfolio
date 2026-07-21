@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Download, MapPin, Mail, GraduationCap, Building } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 function useCountUp(target: number, duration = 1800, trigger: boolean) {
   const [count, setCount] = useState(0);
@@ -49,47 +50,26 @@ function StatCard({
 }
 
 export default function About() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const imageColRef = useRef<HTMLDivElement>(null);
-  const textColRef = useRef<HTMLDivElement>(null);
   const [statsVisible, setStatsVisible] = useState(false);
 
-  useEffect(() => {
-    const observers: IntersectionObserver[] = [];
-
-    if (imageColRef.current) {
-      const obs = new IntersectionObserver(([e]) => {
-        if (e.isIntersecting) imageColRef.current?.classList.add('is-visible');
-      }, { threshold: 0.2 });
-      obs.observe(imageColRef.current);
-      observers.push(obs);
-    }
-    if (textColRef.current) {
-      const obs = new IntersectionObserver(([e]) => {
-        if (e.isIntersecting) textColRef.current?.classList.add('is-visible');
-      }, { threshold: 0.2 });
-      obs.observe(textColRef.current);
-      observers.push(obs);
-    }
-    if (sectionRef.current) {
-      const obs = new IntersectionObserver(([e]) => {
-        if (e.isIntersecting) setStatsVisible(true);
-      }, { threshold: 0.3 });
-      obs.observe(sectionRef.current);
-      observers.push(obs);
-    }
-
-    return () => observers.forEach((o) => o.disconnect());
-  }, []);
-
   return (
-    <section id="about" ref={sectionRef} className="relative py-24 bg-neutral-100 dark:bg-[#0f1011] transition-colors duration-300 overflow-hidden">
+    <section id="about" className="relative py-24 bg-neutral-100 dark:bg-[#0f1011] transition-colors duration-300 overflow-hidden">
       
       <div className="max-w-6xl mx-auto px-6 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <motion.div 
+          onViewportEnter={() => setStatsVisible(true)}
+          viewport={{ once: true, margin: "-100px" }}
+          className="grid lg:grid-cols-2 gap-16 items-center"
+        >
 
           {/* ── Image Column ── */}
-          <div ref={imageColRef} className="reveal-left relative max-w-md mx-auto lg:mx-0 group cursor-default w-full">
+          <motion.div 
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7, type: "spring", bounce: 0 }}
+            className="relative max-w-md mx-auto lg:mx-0 group cursor-default w-full"
+          >
             
             <div className="relative rounded-3xl overflow-hidden bg-neutral-200 dark:bg-neutral-800 border border-neutral-200 dark:border-white/10 shadow-sm aspect-[4/5] w-full max-w-[400px] mx-auto clean-border">
               <img
@@ -112,10 +92,16 @@ export default function About() {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* ── Text Column ── */}
-          <div ref={textColRef} className="reveal-right space-y-8">
+          <motion.div 
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7, type: "spring", bounce: 0 }}
+            className="space-y-8"
+          >
             <div>
               <div className="inline-flex items-center gap-2 text-neutral-500 text-xs font-mono tracking-widest uppercase mb-4">
                 <span className="text-neutral-400 font-bold">01.</span>
@@ -201,8 +187,8 @@ export default function About() {
                 Download Resume
               </a>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );

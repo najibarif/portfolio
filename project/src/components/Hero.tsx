@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ArrowRight, Code, Server, Database, Cpu, Terminal } from 'lucide-react';
+import { motion, useScroll, useTransform, Variants } from 'framer-motion';
 
 const roles = [
   'Full-Stack Developer',
@@ -13,6 +14,25 @@ export default function Hero({ scrollToSection }: { scrollToSection: (id: string
   const [roleIndex, setRoleIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
   const [charIndex, setCharIndex] = useState(0);
+
+  // Parallax Scroll Effect
+  const { scrollY } = useScroll();
+  const opacity = useTransform(scrollY, [0, 400], [1, 0]);
+  const y = useTransform(scrollY, [0, 400], [0, 50]);
+
+  // Framer Motion Variants
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15 },
+    },
+  };
+
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { type: 'spring', bounce: 0, duration: 0.8 } },
+  };
 
   /* Typewriter logic */
   useEffect(() => {
@@ -49,7 +69,13 @@ export default function Hero({ scrollToSection }: { scrollToSection: (id: string
         <div className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] bg-neutral-300/50 dark:bg-accent-violet/5 rounded-full blur-[100px]" />
       </div>
 
-      <div className="max-w-6xl mx-auto px-5 sm:px-6 relative z-10 w-full">
+      <motion.div 
+        style={{ opacity, y }}
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+        className="max-w-6xl mx-auto px-5 sm:px-6 relative z-10 w-full"
+      >
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           
           {/* ── Left: Text Content ── */}
@@ -57,51 +83,55 @@ export default function Hero({ scrollToSection }: { scrollToSection: (id: string
             
             {/* Main heading */}
             <div className="space-y-2 md:space-y-4">
-              <div className="lp-hero-in font-mono text-neutral-500 dark:text-neutral-400 text-xs sm:text-sm tracking-wider sm:tracking-widest flex flex-wrap items-center gap-1.5 sm:gap-2 [animation-delay:0.1s]">
+              <motion.div variants={itemVariants} className="font-mono text-neutral-500 dark:text-neutral-400 text-xs sm:text-sm tracking-wider sm:tracking-widest flex flex-wrap items-center gap-1.5 sm:gap-2">
                 <Terminal className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
                 <span className="break-all sm:break-normal">najib.dev@portfolio:~$</span>
                 <span className="text-neutral-800 dark:text-neutral-200">whoami</span>
-              </div>
+              </motion.div>
 
-              <h1 className="lp-hero-in text-[clamp(34px,8vw,72px)] font-medium leading-[1.1] tracking-[-0.022em] text-balance text-neutral-900 dark:text-white [animation-delay:0.2s]">
+              <motion.h1 variants={itemVariants} className="text-[clamp(34px,8vw,72px)] font-medium leading-[1.1] tracking-[-0.022em] text-balance text-neutral-900 dark:text-white">
                 Naufal Najib
                 <span className="block text-neutral-500 dark:text-neutral-400">Arif.</span>
-              </h1>
+              </motion.h1>
 
               {/* Typewriter role */}
-              <div className="lp-hero-in flex items-center gap-2 h-6 md:h-8 [animation-delay:0.3s]">
+              <motion.div variants={itemVariants} className="flex items-center gap-2 h-6 md:h-8">
                 <span className="text-neutral-400 dark:text-neutral-500 text-sm md:text-lg">{'>'}</span>
                 <span className="text-[15px] md:text-xl text-neutral-800 dark:text-neutral-300 font-mono font-medium min-w-[2px] whitespace-nowrap">
                   {displayText}
                 </span>
                 <span className="w-2 md:w-2.5 h-4 md:h-5 bg-neutral-800 dark:bg-neutral-300 animate-pulse ml-0.5" />
-              </div>
+              </motion.div>
 
-              <p className="lp-hero-in text-[14px] md:text-[clamp(15px,1.6vw,19px)] font-medium leading-[1.6] tracking-[-0.012em] text-neutral-500 dark:text-neutral-400 max-w-xl mt-4 md:mt-6 [animation-delay:0.4s]">
+              <motion.p variants={itemVariants} className="text-[14px] md:text-[clamp(15px,1.6vw,19px)] font-medium leading-[1.6] tracking-[-0.012em] text-neutral-500 dark:text-neutral-400 max-w-xl mt-4 md:mt-6">
                 Crafting high-performance web applications with clean code and aesthetic precision.
-              </p>
+              </motion.p>
             </div>
 
             {/* CTAs */}
-            <div className="lp-hero-in flex flex-col sm:flex-row gap-3 md:gap-4 pt-1 md:pt-2 [animation-delay:0.5s]">
-              <button
+            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-3 md:gap-4 pt-1 md:pt-2">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={() => scrollToSection('portfolio')}
-                className="inline-flex h-10 md:h-11 cursor-pointer items-center justify-center rounded-full bg-neutral-900 dark:bg-white px-5 md:px-6 text-[14px] md:text-[15px] font-medium text-white dark:text-neutral-900 transition hover:bg-neutral-800 dark:hover:bg-neutral-200 active:scale-[0.97]"
+                className="inline-flex h-10 md:h-11 cursor-pointer items-center justify-center rounded-full bg-neutral-900 dark:bg-white px-5 md:px-6 text-[14px] md:text-[15px] font-medium text-white dark:text-neutral-900 transition-colors hover:bg-neutral-800 dark:hover:bg-neutral-200"
               >
                 View Projects
                 <ArrowRight className="w-4 h-4 ml-2" />
-              </button>
+              </motion.button>
 
-              <button
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={() => scrollToSection('contact')}
-                className="inline-flex h-10 md:h-11 cursor-pointer items-center justify-center rounded-full bg-neutral-100 dark:bg-neutral-800/50 px-5 md:px-6 text-[14px] md:text-[15px] font-medium text-neutral-900 dark:text-white transition hover:bg-neutral-200 dark:hover:bg-neutral-800 active:scale-[0.97]"
+                className="inline-flex h-10 md:h-11 cursor-pointer items-center justify-center rounded-full bg-neutral-100 dark:bg-neutral-800/50 px-5 md:px-6 text-[14px] md:text-[15px] font-medium text-neutral-900 dark:text-white transition-colors hover:bg-neutral-200 dark:hover:bg-neutral-800"
               >
                 Start Collaboration
-              </button>
-            </div>
+              </motion.button>
+            </motion.div>
 
             {/* Feature badges */}
-            <div className="lp-hero-in flex flex-wrap items-center gap-2 md:gap-5 pt-2 md:pt-4 [animation-delay:0.6s]">
+            <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-2 md:gap-5 pt-2 md:pt-4">
               {[
                 { icon: Code, label: 'Clean Code' },
                 { icon: Server, label: 'Robust API' },
@@ -113,11 +143,11 @@ export default function Hero({ scrollToSection }: { scrollToSection: (id: string
                   <span>{label}</span>
                 </div>
               ))}
-            </div>
+            </motion.div>
           </div>
 
           {/* ── Right: Visual Element ── */}
-          <div className="relative hidden lg:block lp-hero-in [animation-delay:0.4s]">
+          <motion.div variants={itemVariants} className="relative hidden lg:block">
             <div className="relative w-full aspect-square max-w-[420px] mx-auto group">
               
               {/* Back Accent */}
@@ -138,10 +168,10 @@ export default function Hero({ scrollToSection }: { scrollToSection: (id: string
 
 
             </div>
-          </div>
+          </motion.div>
 
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
